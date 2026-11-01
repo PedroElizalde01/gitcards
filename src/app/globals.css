@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fafaf9;
+  --foreground: #18181b;
+  --muted: #71717a;
+  --line: #e4e4e7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #09090b;
+    --foreground: #fafafa;
+    --muted: #a1a1aa;
+    --line: #27272a;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Fonts the card designs draw with. The server renders pass images from the same files. */
+@font-face { font-family: "Geist"; font-weight: 400; src: url(/fonts/Geist-Regular.ttf); font-display: swap; }
+@font-face { font-family: "Geist"; font-weight: 600; src: url(/fonts/Geist-SemiBold.ttf); font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url(/fonts/GeistMono-Regular.ttf); font-display: swap; }
+@font-face { font-family: "Bricolage Grotesque"; font-weight: 800; src: url(/fonts/BricolageGrotesque-ExtraBold.ttf); font-display: swap; }
+@font-face { font-family: "Archivo Black"; src: url(/fonts/ArchivoBlack.ttf); font-display: swap; }
+@font-face { font-family: "Press Start 2P"; src: url(/fonts/PressStart2P.ttf); font-display: swap; }
+@font-face { font-family: "UnifrakturMaguntia"; src: url(/fonts/UnifrakturMaguntia.ttf); font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url(/fonts/InstrumentSerif-Regular.ttf); font-display: swap; }
+@font-face { font-family: "Instrument Serif"; font-style: italic; src: url(/fonts/InstrumentSerif-Italic.ttf); font-display: swap; }
+
+/* Wallet card preview (markup from cardHtml). Sized in cqw so it scales with its width; native text uses the system font, like Wallet. */
+.card { container-type: inline-size; width: 100%; border-radius: 13px; overflow: hidden; position: relative; font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; box-shadow: 0 1px 0 rgb(0 0 0 / .04), 0 12px 32px -12px rgb(0 0 0 / .35); }
+.card.store, .card.generic { aspect-ratio: 300 / 392; display: flex; flex-direction: column; }
+.card.poster { aspect-ratio: 358 / 448; }
+.card .top { display: flex; align-items: center; gap: 2.67cqw; padding: 3.33cqw 4cqw 2.67cqw; min-height: 15.3cqw; }
+.card .logo { width: 9.33cqw; height: 9.33cqw; border-radius: 50%; object-fit: cover; flex: none; }
+.card .logotext { font-size: 5cqw; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.card .hdr { margin-left: auto; text-align: right; flex: none; }
+.card .lab { font-size: 3cqw; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; line-height: 1.2; }
+.card .val { font-size: 5cqw; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .strip { display: block; width: 100%; height: auto; }
+.card .fields { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 2.67cqw; padding: 3.33cqw 4cqw 0; }
+.card .fields > div:last-child:not(:first-child) { text-align: right; }
+.card .fields.rowb { padding-top: 2.67cqw; }
+.card .code { margin-top: auto; padding-bottom: 4.67cqw; display: grid; justify-items: center; gap: 1.33cqw; }
+.card .qr { background: #fff; border-radius: 2cqw; padding: 2cqw; width: 30.7cqw; height: 30.7cqw; }
+.card .qr svg { width: 100%; height: 100%; display: block; }
+.card .alt { font-size: 3.33cqw; opacity: .75; }
+.card .art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.card .ptop { position: absolute; inset: 0 0 auto; display: flex; align-items: flex-start; padding: 4cqw 4.67cqw; }
+.card .pchip { display: flex; align-items: center; gap: 2cqw; max-width: 39cqw; font-size: 3.67cqw; font-weight: 600; }
+.card .pchip img { width: 7.33cqw; height: 7.33cqw; border-radius: 50%; object-fit: cover; flex: none; }
+.card .pchip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card .pbottom { position: absolute; inset: auto 0 0; padding: 4cqw 4.67cqw 4.67cqw; display: grid; gap: .67cqw; }
+.card .pprimary { font-size: 7.33cqw; font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .pfoot { font-size: 3.67cqw; opacity: .8; }
+.card .gprimary { display: flex; align-items: center; gap: 4cqw; padding: 2cqw 4cqw 1.33cqw; }
+.card .gprimary .val { font-size: 13.3cqw; font-weight: 300; line-height: 1.05; }
+.card .thumb { width: 26cqw; height: 26cqw; border-radius: 3.33cqw; object-fit: cover; margin-left: auto; }

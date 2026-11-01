@@ -1,0 +1,636 @@
+<title>gitcard Card Concepts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Press+Start+2P&family=Caveat:wght@600&family=UnifrakturMaguntia&display=swap">
+<style>
+/* Layout: a contact sheet of Wallet cards, grouped by the three layouts Apple allows; each card is a numbered concept. */
+:root {
+  --bg: #eef0ec;
+  --surface: #ffffff;
+  --fg: #16201a;
+  --muted: #5d6a61;
+  --line: #d3d9d2;
+  --accent: #1f7a3f;
+  --chip: #e2e8e1;
+  --display: "Bricolage Grotesque", "Geist", system-ui, sans-serif;
+  --body: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --sf: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --cw: 300px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0f0d; --surface: #151a17; --fg: #e8ede9; --muted: #93a197; --line: #26302a; --accent: #4fd17c; --chip: #1d2520; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0f0d; --surface: #151a17; --fg: #e8ede9; --muted: #93a197; --line: #26302a; --accent: #4fd17c; --chip: #1d2520; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 40px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 48px; }
+header.intro { display: grid; gap: 16px; max-width: 760px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 6vw, 56px); line-height: 1; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 26px; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 68ch; }
+.lede { font-size: 17px; color: var(--muted); }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.legend div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0; }
+.legend b { font-family: var(--display); font-weight: 600; font-size: 16px; }
+.legend span { color: var(--muted); font-size: 13px; }
+section { display: grid; gap: 20px; }
+section > header { display: grid; gap: 6px; }
+section > header p { color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--cw) + 2px), 1fr)); gap: 36px 28px; }
+figure { margin: 0; display: grid; gap: 12px; justify-items: center; align-content: start; }
+figcaption { width: var(--cw); max-width: 100%; display: grid; gap: 4px; }
+.cap-top { display: flex; align-items: baseline; gap: 8px; }
+.num { font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 500; }
+.name { font-family: var(--display); font-weight: 600; font-size: 17px; }
+.pill { margin-left: auto; font-family: var(--mono); font-size: 11px; letter-spacing: .04em; padding: 2px 8px; border-radius: 99px; background: var(--chip); color: var(--muted); white-space: nowrap; }
+figcaption p { font-size: 13px; color: var(--muted); }
+.notes { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 10px; }
+.notes h2 { font-size: 20px; }
+.notes ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); max-width: 80ch; }
+.notes b { color: var(--fg); font-weight: 600; }
+
+/* Wallet card shells. Native fields use the system font, like Wallet does. */
+.card { width: var(--cw); max-width: 100%; border-radius: 13px; overflow: hidden; position: relative; font-family: var(--sf); box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 12px 32px -12px rgba(0,0,0,.35); }
+.store, .generic { aspect-ratio: 300 / 392; display: flex; flex-direction: column; }
+.poster { aspect-ratio: 358 / 448; }
+.top { display: flex; align-items: center; gap: 8px; padding: 10px 12px 8px; min-height: 46px; }
+.logo { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; flex: none; }
+.logotext { font-size: 15px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.hdr { margin-left: auto; text-align: right; flex: none; }
+.lab { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; line-height: 1.2; }
+.val { font-size: 15px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.strip { display: block; width: 100%; aspect-ratio: 375 / 144; }
+.fields { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 8px; padding: 10px 12px 0; }
+.fields > div:last-child:not(:first-child) { text-align: right; }
+.fields.rowb { padding-top: 8px; }
+.code { margin-top: auto; padding: 0 0 14px; display: grid; justify-items: center; gap: 4px; }
+.qr { background: #fff; border-radius: 6px; padding: 6px; width: 92px; height: 92px; }
+.qr svg { width: 100%; height: 100%; display: block; }
+.alt { font-size: 10px; opacity: .75; }
+.art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ptop { position: absolute; inset: 0 0 auto; display: flex; align-items: flex-start; padding: 12px 14px; }
+.plogo { font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
+.pbottom { position: absolute; inset: auto 0 0; padding: 12px 14px 14px; display: grid; gap: 2px; }
+.pprimary { font-size: 22px; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; }
+.pfoot { font-size: 11px; opacity: .8; }
+.pchip { display: flex; align-items: center; gap: 6px; max-width: 118px; font-size: 11px; }
+.pchip img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; flex: none; }
+.pchip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gprimary { display: flex; align-items: center; gap: 12px; padding: 6px 12px 4px; }
+.gprimary .val { font-size: 40px; font-weight: 300; letter-spacing: -.02em; line-height: 1.05; }
+.thumb { width: 78px; height: 78px; border-radius: 10px; object-fit: cover; margin-left: auto; }
+@media (max-width: 420px) { :root { --cw: min(300px, calc(100vw - 32px)); } }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <div class="eyebrow">gitcard · design round 2 · real data for @<span id="who"></span></div>
+    <h1>Thirty-one ways to carry your graph</h1>
+    <p class="lede">Every concept uses your actual last 12 months, avatar and username. Each one is drawn inside the layout Apple Wallet really allows, so what you pick here is what you'd get on the phone. <a href="#round3" style="color:var(--accent)">New: #17–31</a> lean harder on your photo and handle.</p>
+    <div class="legend">
+      <div><b>Store card</b><span>Works on every iPhone. Banner (strip) is fixed at 375×144 pt, between a top row and one row of fields.</span></div>
+      <div><b>Poster</b><span>iOS 27 and later. The whole card is artwork (358×448 pt). Older iPhones get a plain fallback.</span></div>
+      <div><b>Generic</b><span>Every iPhone. No banner: big number plus a square photo. Most native, least visual.</span></div>
+    </div>
+  </header>
+
+  <section>
+    <header><h2>Store card</h2><p>Avatar as the logo, your username next to it, the total in the top-right corner. The banner art is a server-rendered image, so it can use any font and drawing style.</p></header>
+    <div class="grid" id="store"></div>
+  </section>
+
+  <section>
+    <header><h2>Poster</h2><p>The entire front is your artwork. Wallet overlays a small logo and one field at the top, and one big field plus a footer at the bottom, so the art keeps those zones calm.</p></header>
+    <div class="grid" id="poster"></div>
+  </section>
+
+  <section>
+    <header><h2>Generic</h2><p>No image banner at all. Included for comparison: it is the layout with the most native, accessible text.</p></header>
+    <div class="grid" id="generic"></div>
+  </section>
+
+  <section id="round3">
+    <header><h2>Round 3 · Store card</h2><p>Same banner limits as #1–8, but the banner is used as a full poster strip: photo, handle and art together.</p></header>
+    <div class="grid" id="store2"></div>
+  </section>
+
+  <section>
+    <header><h2>Round 3 · Poster</h2><p>Where a poster shows a small avatar chip top-left, that is the logo slot (126×30 pt), which is an image we render too.</p></header>
+    <div class="grid" id="poster2"></div>
+  </section>
+
+  <div class="notes">
+    <h2>What holds for every concept</h2>
+    <ul>
+      <li><b>Text in the system font</b> (top row and field rows) is real Wallet text: it updates, is readable by VoiceOver, and can't use custom fonts.</li>
+      <li><b>Anything in the banner or poster art</b> is an image we render on the server: custom fonts, your avatar, charts. It updates daily with the rest of the card.</li>
+      <li><b>Stats are computed from your real days</b> (active days, longest streak, best day). Nothing is invented.</li>
+      <li><b>The QR is optional.</b> It links to your GitHub profile. Without it, Wallet leaves the bottom of a store card empty.</li>
+    </ul>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const D = /*DATA*/null;
+const AV = "data:image/jpeg;base64,/*AVATAR*/";
+
+// ---------- data ----------
+const DAY = 864e5;
+const t0 = Date.parse(D.start + "T00:00:00Z");
+const N = D.counts.length;
+const OFF = new Date(t0).getUTCDay();
+const COLS = Math.ceil((N + OFF) / 7);
+const dateOf = (i) => new Date(t0 + i * DAY);
+const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const fmt = (n) => n.toLocaleString("en-US");
+
+function levels(counts) {
+  const nz = counts.filter((c) => c > 0).sort((a, b) => a - b);
+  const q = [0.25, 0.5, 0.75].map((p) => nz[Math.floor(p * (nz.length - 1))] ?? 0);
+  return counts.map((c) => (c <= 0 ? 0 : c <= q[0] ? 1 : c <= q[1] ? 2 : c <= q[2] ? 3 : 4));
+}
+const LV = levels(D.counts);
+const MAX = Math.max(...D.counts, 1);
+const active = D.counts.filter((c) => c > 0).length;
+let longest = 0, run = 0;
+for (const c of D.counts) { run = c > 0 ? run + 1 : 0; longest = Math.max(longest, run); }
+const bestI = D.counts.indexOf(MAX);
+const bestDay = `${MON[dateOf(bestI).getUTCMonth()]} ${dateOf(bestI).getUTCDate()}`;
+const weekly = Array.from({ length: COLS }, () => 0);
+D.counts.forEach((c, i) => (weekly[Math.floor((i + OFF) / 7)] += c));
+const since = new Date(D.createdAt).getUTCFullYear();
+const updated = (() => { const d = dateOf(N - 1); return `${MON[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`; })();
+const LOGIN = D.login, NAME = D.name || D.login;
+const S = { total: fmt(D.total), active: String(active), streak: `${longest} days`, best: `${MAX} · ${bestDay}`, since: String(since) };
+const MONL = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const DOWL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const wd = Array(7).fill(0);
+D.counts.forEach((c, i) => (wd[dateOf(i).getUTCDay()] += c));
+const topWd = wd.indexOf(Math.max(...wd));
+/** Calendar months in the window with their totals; full=true drops the partial first/last month. */
+function monthList(full = true) {
+  const list = [];
+  for (let i = 0; i < N; i++) {
+    const d = dateOf(i), k = d.getUTCFullYear() * 12 + d.getUTCMonth();
+    let cur = list[list.length - 1];
+    if (!cur || cur.k !== k) list.push((cur = { k, m: d.getUTCMonth(), y: d.getUTCFullYear(), days: [], total: 0 }));
+    cur.days.push(i); cur.total += D.counts[i];
+  }
+  return full ? list.filter((m) => m.days.length > 7).slice(-12) : list;
+}
+const ML = monthList();
+const topM = ML.reduce((a, b) => (b.total > a.total ? b : a));
+const weeksActive = weekly.filter(Boolean).length;
+const monthsActive = ML.filter((m) => m.total).length;
+/** Handle split at a camelCase boundary into two balanced lines. */
+function splitHandle() {
+  const parts = LOGIN.split(/(?=[A-Z])/); let cut = 1, best = Infinity;
+  for (let k = 1; k < parts.length; k++) { const d = Math.abs(parts.slice(0, k).join("").length - parts.slice(k).join("").length); if (d < best) { best = d; cut = k; } }
+  return parts.length > 1 ? [parts.slice(0, cut).join(""), parts.slice(cut).join("")] : [LOGIN];
+}
+
+// ---------- drawing helpers (SVG in Wallet points) ----------
+let uid = 0;
+const id = (p) => `${p}${++uid}`;
+const svg = (w, h, body, cls = "strip") => `<svg class="${cls}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${D.total} contributions in the last 12 months">${body}</svg>`;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+/** Day positions for a layout: row (weeks across), bands (two halves stacked), vertical (weeks down). */
+function cells(mode) {
+  const half = Math.ceil(COLS / 2);
+  return D.counts.map((c, i) => {
+    const k = i + OFF, w = Math.floor(k / 7), d = k % 7;
+    if (mode === "bands") return { i, x: w % half, y: d + (w >= half ? 7.8 : 0) };
+    if (mode === "vertical") return { i, x: d, y: w };
+    return { i, x: w, y: d };
+  });
+}
+function dims(mode) {
+  const half = Math.ceil(COLS / 2);
+  return mode === "bands" ? [half, 14.8] : mode === "vertical" ? [7, COLS] : [COLS, 7];
+}
+/** Heatmap fitted in a box. pal: 5 colors. shape: rect | dot. */
+function heat({ x = 0, y = 0, w, h, pal, mode = "row", shape = "rect", gap = 0.18, r = 0.22, align = "center" }) {
+  const [gw, gh] = dims(mode);
+  const p = Math.min(w / gw, h / gh);
+  const cell = p * (1 - gap);
+  const ox = x + (align === "left" ? 0 : (w - p * gw) / 2) + (p - cell) / 2;
+  const oy = y + (h - p * gh) / 2 + (p - cell) / 2;
+  return cells(mode).map((c) => {
+    const fill = pal[LV[c.i]], cx = ox + c.x * p, cy = oy + c.y * p;
+    return shape === "dot"
+      ? `<circle cx="${(cx + cell / 2).toFixed(2)}" cy="${(cy + cell / 2).toFixed(2)}" r="${(cell / 2).toFixed(2)}" fill="${fill}"/>`
+      : `<rect x="${cx.toFixed(2)}" y="${cy.toFixed(2)}" width="${cell.toFixed(2)}" height="${cell.toFixed(2)}" rx="${(cell * r).toFixed(2)}" fill="${fill}"/>`;
+  }).join("");
+}
+/** Month initials over the first full week of each month, for the bands layout. */
+function bandLabels({ x = 0, y = 0, w, h, color, size = 8.5, font = "Geist Mono" }) {
+  const [gw, gh] = dims("bands"); const half = Math.ceil(COLS / 2);
+  const p = Math.min(w / gw, h / gh); const ox = x + (w - p * gw) / 2; const oy = y + (h - p * gh) / 2;
+  let out = "", last = -1;
+  for (let i = 0; i < N; i++) {
+    const d = dateOf(i); if (d.getUTCDate() !== 1 || d.getUTCMonth() === last) continue; last = d.getUTCMonth();
+    const wk = Math.floor((i + OFF) / 7); const band = wk >= half ? 1 : 0; const col = wk % half;
+    const ty = oy + band * 7.8 * p - p * 0.25;
+    out += `<text x="${(ox + col * p).toFixed(1)}" y="${ty.toFixed(1)}" font-family="${font}" font-size="${size}" fill="${color}">${MON[d.getUTCMonth()]}</text>`;
+  }
+  return out;
+}
+function avatar(cx, cy, r, ring = "") {
+  const c = id("av");
+  return `<defs><clipPath id="${c}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath></defs>${ring ? `<circle cx="${cx}" cy="${cy}" r="${r + 2.5}" fill="${ring}"/>` : ""}<image href="${AV}" x="${cx - r}" y="${cy - r}" width="${r * 2}" height="${r * 2}" clip-path="url(#${c})" preserveAspectRatio="xMidYMid slice"/>`;
+}
+function grad(stops, x2 = 1, y2 = 1) {
+  const g = id("g");
+  return [g, `<defs><linearGradient id="${g}" x1="0" y1="0" x2="${x2}" y2="${y2}">${stops.map((s, i) => `<stop offset="${i / (stops.length - 1)}" stop-color="${s}"/>`).join("")}</linearGradient></defs>`];
+}
+function months({ x, y, w, h, cols = 6, pal, label, font = "Geist Mono", size = 8 }) {
+  // 12 calendars, Nov through Oct (the last full months in the window).
+  const list = [];
+  for (let i = 0; i < N; i++) {
+    const d = dateOf(i), k = d.getUTCFullYear() * 12 + d.getUTCMonth();
+    let cur = list[list.length - 1];
+    if (!cur || cur.k !== k) list.push((cur = { k, m: d.getUTCMonth(), days: [] }));
+    cur.days.push(i);
+  }
+  const ms = list.filter((m) => m.days.length > 7).slice(-12);
+  const rows = Math.ceil(ms.length / cols);
+  const mw = w / cols, mh = h / rows;
+  return ms.map((m, j) => {
+    const bx = x + (j % cols) * mw, by = y + Math.floor(j / cols) * mh;
+    const first = dateOf(m.days[0]).getUTCDay();
+    const p = Math.min((mw - 6) / 7, (mh - size - 6) / 6); const cell = p * 0.8;
+    const sx = bx + (mw - p * 7) / 2;
+    return `<text x="${sx.toFixed(1)}" y="${(by + size).toFixed(1)}" font-family="${font}" font-size="${size}" fill="${label}">${MON[m.m]}</text>` +
+      m.days.map((i, n) => { const k = n + first; return `<rect x="${(sx + (k % 7) * p).toFixed(2)}" y="${(by + size + 4 + Math.floor(k / 7) * p).toFixed(2)}" width="${cell.toFixed(2)}" height="${cell.toFixed(2)}" rx="${(cell * .25).toFixed(2)}" fill="${pal[LV[i]]}"/>`; }).join("");
+  }).join("");
+}
+/** Oblique 3D bars. data: {x,y,v} on a grid; v 0..1. */
+function skyline({ ox, oy, p, depth = [0.5, -0.32], H, top, front, side, empty, gridW, gridH, data }) {
+  const [dx, dy] = depth.map((d) => d * p); const w = p * 0.86;
+  const sorted = [...data].sort((a, b) => b.y - a.y || a.x - b.x);
+  return sorted.map(({ x, y, v }) => {
+    const bx = ox + x * p + y * dx, by = oy + y * dy; const h = v > 0 ? 1.2 + v * H : 0.6;
+    const t = by - h; const col = v > 0 ? [top, front, side] : [empty, empty, empty];
+    return `<path d="M${bx},${t} l${dx},${dy} h${w} l${-dx},${-dy}z" fill="${col[0]}"/><path d="M${bx},${t} h${w} v${h} h${-w}z" fill="${col[1]}"/><path d="M${bx + w},${t} l${dx},${dy} v${h} l${-dx},${-dy}z" fill="${col[2]}"/>`;
+  }).join("");
+}
+function qrSvg(text) {
+  if (typeof qrcode !== "function") return "";
+  const q = qrcode(0, "M"); q.addData(text); q.make(); const n = q.getModuleCount(); let d = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c},${r}h1v1h-1z`;
+  return `<svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path d="${d}" fill="#000"/></svg>`;
+}
+/** Avatar luminance on an n×n grid, stretched to 0..1. The server would do the same with sharp. */
+const IMG = new Image();
+IMG.src = AV;
+function sample(n) {
+  if (sample[n]) return sample[n];
+  try {
+    const c = document.createElement("canvas"); c.width = c.height = n;
+    const x = c.getContext("2d"); x.drawImage(IMG, 0, 0, n, n);
+    const d = x.getImageData(0, 0, n, n).data, L = [];
+    for (let i = 0; i < d.length; i += 4) L.push(0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]);
+    const lo = Math.min(...L), hi = Math.max(...L);
+    return (sample[n] = L.map((v) => (v - lo) / (hi - lo || 1)));
+  } catch { return (sample[n] = Array(n * n).fill(0.5)); }
+}
+/** The avatar redrawn as an n×n grid of palette squares (dark → light). */
+function pixelArt({ x, y, size, n, pal, gap = 0, r = 0 }) {
+  const L = sample(n), p = size / n, s = p * (1 - gap), k = pal.length;
+  return L.map((v, i) => `<rect x="${(x + (i % n) * p).toFixed(2)}" y="${(y + Math.floor(i / n) * p).toFixed(2)}" width="${s.toFixed(2)}" height="${s.toFixed(2)}" rx="${(s * r).toFixed(2)}" fill="${pal[Math.min(k - 1, Math.floor(v * k))]}"/>`).join("");
+}
+
+// ---------- card shells ----------
+const F = (f, c) => `<div><div class="lab" style="color:${c.label}">${esc(f[0])}</div><div class="val">${esc(f[1])}</div></div>`;
+function store(c) {
+  const top = `<div class="top">${c.noAvatar ? "" : `<img class="logo" src="${AV}" alt="">`}<div class="logotext">${esc(c.logoText ?? LOGIN)}</div><div class="hdr">${F(c.header, c)}</div></div>`;
+  const fields = `<div class="fields" style="--n:${c.fields.length}">${c.fields.map((f) => F(f, c)).join("")}</div>`;
+  const code = c.qr ? `<div class="code"><div class="qr">${qrSvg("https://github.com/" + LOGIN)}</div><div class="alt">github.com/${esc(LOGIN)}</div></div>` : "";
+  return `<div class="card store" style="background:${c.bg};color:${c.fg}">${top}${c.strip}${fields}${code}</div>`;
+}
+function poster(c) {
+  return `<div class="card poster" style="background:${c.bg};color:${c.fg}">${c.art}<div class="ptop">${c.chip ? `<div class="plogo pchip"><img src="${AV}" alt=""><span>@${esc(LOGIN)}</span></div>` : `<div class="plogo">gitcard</div>`}<div class="hdr">${F(c.header, c)}</div></div><div class="pbottom"><div class="pprimary">${esc(c.primary)}</div><div class="pfoot">${esc(c.footer)}</div></div></div>`;
+}
+function generic(c) {
+  return `<div class="card generic" style="background:${c.bg};color:${c.fg}"><div class="top"><div class="logotext">gitcard</div><div class="hdr">${F(c.header, c)}</div></div><div class="gprimary"><div><div class="lab" style="color:${c.label}">Contributions</div><div class="val">${S.total}</div></div><img class="thumb" src="${AV}" alt=""></div><div class="fields" style="--n:2">${F(["Developer", NAME], c)}${F(["Member since", S.since], c)}</div><div class="fields rowb" style="--n:3">${F(["Active days", S.active], c)}${F(["Streak", S.streak], c)}${F(["Best day", String(MAX)], c)}</div><div class="code"><div class="qr">${qrSvg("https://github.com/" + LOGIN)}</div><div class="alt">github.com/${esc(LOGIN)}</div></div></div>`;
+}
+
+const GH = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+
+// ---------- concepts ----------
+const STORE = [
+  {
+    name: "Two-Row Classic", note: "GitHub dark, the year split into two rows (Nov–Apr, May–Oct) so the squares are about 40% bigger.",
+    html: () => store({ bg: "#0d1117", fg: "#e6edf3", label: "#7d8590", header: ["Contributions", S.total], qr: true,
+      strip: svg(375, 144, `<rect width="375" height="144" fill="#0d1117"/>${heat({ x: 8, y: 8, w: 359, h: 134, pal: GH, mode: "bands" })}${bandLabels({ x: 8, y: 8, w: 359, h: 134, color: "#7d8590" })}`),
+      fields: [["Active days", S.active], ["Streak", S.streak], ["Best day", String(MAX)]] }),
+  },
+  {
+    name: "Profile Banner", note: "Big avatar, name and handle in the banner itself, with the full graph as a ribbon below.",
+    html: () => {
+      const [g, gd] = grad(["#0b1f17", "#123d2a"]);
+      return store({ bg: "#0b1f17", fg: "#f1f7f3", label: "#7fbf98", header: ["Last 12 months", S.total], noAvatar: true, logoText: "gitcard", qr: true,
+        strip: svg(375, 144, `${gd}<rect width="375" height="144" fill="url(#${g})"/>${avatar(50, 52, 34, "#39d353")}<text x="98" y="46" font-family="Bricolage Grotesque" font-weight="800" font-size="25" fill="#f1f7f3">${esc(NAME.split(" ").slice(0, 2).join(" "))}</text><text x="98" y="68" font-family="Geist Mono" font-size="13" fill="#7fbf98">@${esc(LOGIN)}</text>${heat({ x: 14, y: 96, w: 347, h: 40, pal: ["#ffffff14", "#1d6b3f", "#2a9a57", "#39d353", "#a8f0c0"], gap: .22 })}`),
+        fields: [["Active days", S.active], ["Streak", S.streak], ["Best day", String(MAX)]] });
+    },
+  },
+  {
+    name: "Twelve Months", note: "A wall calendar: each month as its own small grid, labelled.",
+    html: () => store({ bg: "#f3f5f2", fg: "#16201a", label: "#5d6a61", header: ["Contributions", S.total], qr: true,
+      strip: svg(375, 144, `<rect width="375" height="144" fill="#f3f5f2"/>${months({ x: 10, y: 6, w: 355, h: 134, pal: ["#e1e6df", "#b5d8b9", "#6fbf7f", "#2f9a4f", "#16602f"], label: "#5d6a61" })}`),
+      fields: [["Active days", S.active], ["Best day", String(MAX)], ["Since", S.since]] }),
+  },
+  {
+    name: "Skyline", note: "Each week as a lit building; height is that week's total.",
+    html: () => {
+      const vmax = Math.max(...weekly, 1);
+      const data = weekly.map((v, x) => ({ x, y: 0, v: Math.sqrt(v / vmax) }));
+      const [g, gd] = grad(["#0a1430", "#13254f"], 0, 1);
+      return store({ bg: "#0a1430", fg: "#e8eeff", label: "#8ea2d8", header: ["Contributions", S.total], qr: true,
+        strip: svg(375, 144, `${gd}<rect width="375" height="144" fill="url(#${g})"/><circle cx="330" cy="30" r="12" fill="#f6e7b0" opacity=".85"/>${skyline({ ox: 14, oy: 132, p: 6.3, H: 92, depth: [0.6, -0.5], top: "#7ef0a6", front: "#2ea85a", side: "#1c7a40", empty: "#22305a", data })}`),
+        fields: [["Best week", fmt(vmax)], ["Streak", S.streak], ["Active days", S.active]] });
+    },
+  },
+  {
+    name: "Weekly Bars", note: "Minimal white. One bar per week, your busiest week in green.",
+    html: () => {
+      const vmax = Math.max(...weekly, 1); const bw = 347 / weekly.length;
+      const bars = weekly.map((v, i) => { const h = Math.max(1.5, (v / vmax) * 104); return `<rect x="${(14 + i * bw).toFixed(2)}" y="${(124 - h).toFixed(2)}" width="${(bw * .7).toFixed(2)}" height="${h.toFixed(2)}" rx="1.2" fill="${v === vmax ? "#1f9d4c" : "#111"}"/>`; }).join("");
+      return store({ bg: "#fafaf7", fg: "#111", label: "#8a877f", header: ["Contributions", S.total], qr: true,
+        strip: svg(375, 144, `<rect width="375" height="144" fill="#fafaf7"/><line x1="14" y1="126" x2="361" y2="126" stroke="#d8d6cf" stroke-width="1"/>${bars}`),
+        fields: [["Weeks active", String(weekly.filter(Boolean).length)], ["Best week", fmt(vmax)], ["Since", S.since]] });
+    },
+  },
+  {
+    name: "Terminal", note: "Your graph as shell output, drawn in block characters.",
+    html: () => {
+      const ch = [" ", "░", "▒", "▓", "█"]; const rows = Array.from({ length: 7 }, () => Array(COLS).fill(" "));
+      D.counts.forEach((c, i) => { const k = i + OFF; rows[k % 7][Math.floor(k / 7)] = ch[LV[i]]; });
+      const lines = rows.map((r, j) => `<text x="12" y="${48 + j * 13}" font-family="JetBrains Mono" font-size="11.4" fill="#c6f432" textLength="351" lengthAdjust="spacingAndGlyphs" xml:space="preserve">${r.join("")}</text>`).join("");
+      return store({ bg: "#121512", fg: "#d7e0d0", label: "#c6f432", header: ["$ git count", S.total], qr: true,
+        strip: svg(375, 144, `<rect width="375" height="144" fill="#121512"/><text x="12" y="26" font-family="JetBrains Mono" font-size="12" fill="#7f8c78"><tspan fill="#c6f432">~</tspan> $ gh graph --user ${esc(LOGIN)}</text>${lines}`),
+        fields: [["$ whoami", LOGIN], ["--active", S.active], ["--streak", S.streak]] });
+    },
+  },
+  {
+    name: "Pulse", note: "A 7-day rolling line of your activity, glowing on deep teal.",
+    html: () => {
+      const roll = D.counts.map((_, i) => D.counts.slice(Math.max(0, i - 6), i + 1).reduce((a, b) => a + b, 0) / 7);
+      const m = Math.max(...roll, 1); const pts = roll.map((v, i) => [14 + (i / (N - 1)) * 347, 124 - (v / m) * 96]);
+      const line = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join("");
+      const [g, gd] = grad(["#5ef2c2", "#5ef2c200"], 0, 1); const f = id("f");
+      return store({ bg: "#062a2a", fg: "#e6fff7", label: "#5ef2c2", header: ["Contributions", S.total], qr: true,
+        strip: svg(375, 144, `${gd}<defs><filter id="${f}"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="375" height="144" fill="#062a2a"/>${[44, 76, 108].map((y) => `<line x1="14" x2="361" y1="${y}" y2="${y}" stroke="#ffffff12"/>`).join("")}<path d="${line}L361,128L14,128Z" fill="url(#${g})" opacity=".35"/><path d="${line}" fill="none" stroke="#5ef2c2" stroke-width="3" filter="url(#${f})" opacity=".8"/><path d="${line}" fill="none" stroke="#c9fff0" stroke-width="1.4"/>`),
+        fields: [["Peak day", S.best], ["Active days", S.active], ["Streak", S.streak]] });
+    },
+  },
+  {
+    name: "Forest Membership", note: "Premium club card: round leaves for days, a serif name, member since your join year.",
+    html: () => {
+      const [g, gd] = grad(["#1e3d2b", "#2c5a3d"]);
+      return store({ bg: "#1e3d2b", fg: "#f4efe2", label: "#d5b56e", header: ["Member since", S.since], qr: true,
+        strip: svg(375, 144, `${gd}<rect width="375" height="144" fill="url(#${g})"/><text x="16" y="34" font-family="Instrument Serif" font-style="italic" font-size="24" fill="#f4efe2">${esc(NAME)}</text>${heat({ x: 14, y: 46, w: 347, h: 88, pal: ["#ffffff12", "#5d8a5a", "#8fbf73", "#c9dd8a", "#efe2a0"], mode: "row", shape: "dot", gap: .14 })}`),
+        fields: [["Contributions", S.total], ["Active days", S.active], ["Streak", S.streak]] });
+    },
+  },
+];
+
+const POSTER = [
+  {
+    name: "Portrait", note: "Your avatar as the hero image, name in display type, the year beneath.",
+    html: () => {
+      const [g, gd] = grad(["#0d111700", "#0d1117ee", "#0d1117"], 0, 1); const c = id("c");
+      return poster({ bg: "#0d1117", fg: "#fff", label: "#9fb0c0", header: ["Contributions", S.total], primary: `@${LOGIN}`, footer: `Last 12 months · Updated ${updated}`,
+        art: svg(358, 448, `${gd}<defs><clipPath id="${c}"><rect width="358" height="300"/></clipPath></defs><image href="${AV}" width="358" height="358" y="-20" preserveAspectRatio="xMidYMid slice" clip-path="url(#${c})"/><rect y="120" width="358" height="190" fill="url(#${g})"/><rect y="300" width="358" height="148" fill="#0d1117"/><text x="16" y="270" font-family="Bricolage Grotesque" font-weight="800" font-size="34" fill="#fff">${esc(NAME.split(" ")[0])}</text>${heat({ x: 14, y: 282, w: 330, h: 80, pal: GH, mode: "bands" })}`, "art") });
+    },
+  },
+  {
+    name: "Big Number", note: "The total, huge, laid over your graph like a texture.",
+    html: () => poster({ bg: "#0f2416", fg: "#eafff0", label: "#7fd69a", header: ["Since", S.since], primary: NAME, footer: `@${LOGIN} · contributions, last 12 months`,
+      art: svg(358, 448, `<rect width="358" height="448" fill="#0f2416"/>${heat({ x: 0, y: 56, w: 358, h: 300, pal: ["#ffffff0d", "#1c5a33", "#25804a", "#2fa65c", "#3dd673"], mode: "bands", gap: .12, r: .15 })}<text x="179" y="250" text-anchor="middle" font-family="Archivo Black" font-size="${D.total > 9999 ? 92 : 128}" fill="#eafff0" letter-spacing="-4">${S.total}</text>`, "art") }),
+  },
+  {
+    name: "Year Calendar", note: "Twelve monthly grids with room to read them, avatar and name on top.",
+    html: () => poster({ bg: "#f4f6f2", fg: "#16201a", label: "#5d6a61", header: ["Contributions", S.total], primary: NAME, footer: `@${LOGIN} · Updated ${updated}`,
+      art: svg(358, 448, `<rect width="358" height="448" fill="#f4f6f2"/>${avatar(36, 76, 20)}<text x="64" y="72" font-family="Bricolage Grotesque" font-weight="800" font-size="18" fill="#16201a">${esc(LOGIN)}</text><text x="64" y="90" font-family="Geist Mono" font-size="10" fill="#5d6a61">${S.active} active days · ${S.streak} streak</text>${months({ x: 10, y: 108, w: 338, h: 262, cols: 3, pal: ["#e1e6df", "#b5d8b9", "#6fbf7f", "#2f9a4f", "#16602f"], label: "#5d6a61", size: 10 })}`, "art") }),
+  },
+  {
+    name: "Trading Card", note: "Collectible card with a foil edge and a stat box. All numbers are real.",
+    html: () => {
+      const [g, gd] = grad(["#9ef0ff", "#c7a6ff", "#ffd6a0", "#9ff5b8", "#9ef0ff"]); const c = id("c");
+      const st = [["Contributions", S.total], ["Active days", S.active], ["Longest streak", S.streak], ["Best day", S.best]];
+      return poster({ bg: "#141414", fg: "#fff", label: "#ffd6a0", header: ["Season", "2025–26"], primary: NAME, footer: `@${LOGIN}`,
+        art: svg(358, 448, `${gd}<rect width="358" height="448" fill="url(#${g})"/><rect x="10" y="10" width="338" height="428" rx="14" fill="#141414"/><defs><clipPath id="${c}"><rect x="26" y="52" width="306" height="170" rx="8"/></clipPath></defs><image href="${AV}" x="26" y="52" width="306" height="170" preserveAspectRatio="xMidYMid slice" clip-path="url(#${c})"/><rect x="26" y="52" width="306" height="170" rx="8" fill="none" stroke="url(#${g})" stroke-width="3"/>${st.map((s, i) => `<text x="34" y="${248 + i * 19}" font-family="Press Start 2P" font-size="7.5" fill="#bbb">${s[0].toUpperCase()}</text><text x="324" y="${248 + i * 19}" text-anchor="end" font-family="Press Start 2P" font-size="8.5" fill="#fff">${esc(s[1])}</text>`).join("")}${heat({ x: 26, y: 322, w: 306, h: 48, pal: ["#2a2a2a", "#3b6e4f", "#4fa070", "#8fe0a8", "#e9ffe9"] })}`, "art") });
+    },
+  },
+  {
+    name: "Year Clock", note: "The year as a dial: weeks around the circle, weekdays as rings, you in the middle.",
+    html: () => {
+      const cx = 179, cy = 196, R0 = 64, ring = 13;
+      let dots = "";
+      D.counts.forEach((_, i) => { const k = i + OFF, w = Math.floor(k / 7), d = k % 7; const a = (w / COLS) * Math.PI * 2 - Math.PI / 2; const r = R0 + d * ring; const s = [1.6, 2.6, 3.4, 4.2, 5][LV[i]]; dots += `<circle cx="${(cx + Math.cos(a) * r).toFixed(1)}" cy="${(cy + Math.sin(a) * r).toFixed(1)}" r="${s}" fill="${["#ffffff26", "#ff9f6e", "#ff7a59", "#ff5a5a", "#ffd0a8"][LV[i]]}"/>`; });
+      let labels = ""; let last = -1;
+      for (let i = 0; i < N; i++) { const dt = dateOf(i); if (dt.getUTCDate() !== 1 || dt.getUTCMonth() === last) continue; last = dt.getUTCMonth(); const w = Math.floor((i + OFF) / 7); const a = (w / COLS) * Math.PI * 2 - Math.PI / 2; labels += `<text x="${(cx + Math.cos(a) * 160).toFixed(1)}" y="${(cy + Math.sin(a) * 160 + 3).toFixed(1)}" text-anchor="middle" font-family="Geist Mono" font-size="9" fill="#a99">${MON[dt.getUTCMonth()][0]}</text>`; }
+      return poster({ bg: "#1b1414", fg: "#fff3ec", label: "#ff9f6e", header: ["Contributions", S.total], primary: `@${LOGIN}`, footer: `${S.active} active days · Updated ${updated}`,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#1b1414"/>${dots}${labels}${avatar(cx, cy, 46, "#ff7a59")}`, "art") });
+    },
+  },
+  {
+    name: "City", note: "Your whole year as a 3D city block, every day a building.",
+    html: () => {
+      const data = D.counts.map((c, i) => { const k = i + OFF; return { x: Math.floor(k / 7), y: k % 7, v: Math.sqrt(c / MAX) }; });
+      const [g, gd] = grad(["#20123a", "#3a1f4d", "#5a2d4a"], 0, 1);
+      return poster({ bg: "#20123a", fg: "#fff", label: "#ffb3d1", header: ["Contributions", S.total], primary: NAME, footer: `@${LOGIN} · last 12 months`,
+        art: svg(358, 448, `${gd}<rect width="358" height="448" fill="url(#${g})"/>${avatar(179, 104, 34, "#ffb3d1")}<text x="179" y="164" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="800" font-size="20" fill="#fff">${esc(LOGIN)}</text>${skyline({ ox: 8, oy: 352, p: 5.6, depth: [0.9, -0.62], H: 70, top: "#ffe08a", front: "#ff7aa8", side: "#c2477a", empty: "#ffffff1c", data })}`, "art") });
+    },
+  },
+  {
+    name: "Swiss", note: "White, a strict grid, your handle set large, one red mark for your best day.",
+    html: () => {
+      const pal = ["#e8e8e4", "#bdbdb8", "#8a8a85", "#4a4a47", "#111"];
+      const parts = LOGIN.split(/(?=[A-Z])/); let cut = 1, best = Infinity;
+      for (let k = 1; k < parts.length; k++) { const d = Math.abs(parts.slice(0, k).join("").length - parts.slice(k).join("").length); if (d < best) { best = d; cut = k; } }
+      const lines = parts.length > 1 ? [parts.slice(0, cut).join(""), parts.slice(cut).join("")] : [LOGIN];
+      const size = Math.min(60, 334 / (Math.max(...lines.map((l) => l.length)) * 0.74));
+      const hx = 14, hy = 214, hw = 330, hh = 118;
+      const [gw, gh] = dims("bands"); const p = Math.min(hw / gw, hh / gh); const ox = hx + (hw - p * gw) / 2; const oy = hy + (hh - p * gh) / 2;
+      const c = cells("bands")[bestI]; const bx = ox + c.x * p + p * .09, by = oy + c.y * p + p * .09;
+      return poster({ bg: "#fbfbf9", fg: "#111", label: "#e2231a", header: ["Contributions", S.total], primary: NAME, footer: `Member since ${S.since}`,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#fbfbf9"/>${lines.map((l, k) => `<text x="12" y="${104 + k * size * 1.02}" font-family="Archivo Black" font-size="${size.toFixed(1)}" fill="#111" letter-spacing="-1.5">${esc(l)}</text>`).join("")}<rect x="12" y="194" width="334" height="2" fill="#111"/>${heat({ x: hx, y: hy, w: hw, h: hh, pal, mode: "bands", r: 0 })}<rect x="${bx}" y="${by}" width="${p * .82}" height="${p * .82}" fill="#e2231a"/>`, "art") });
+    },
+  },
+];
+
+const GENERIC = [
+  { name: "Native ID", note: "Big number, square photo, all real Wallet text. No graph: this layout has no banner.", html: () => generic({ bg: "#0d1117", fg: "#e6edf3", label: "#7d8590", header: ["Since", S.since] }) },
+];
+
+const F3 = [["Active days", S.active], ["Streak", S.streak], ["Best day", String(MAX)]];
+const STORE2 = [
+  {
+    name: "Black Card", note: "Metal credit-card face: chip, embossed name, the year as a holographic stripe.",
+    html: () => {
+      const [g, gd] = grad(["#34363b", "#1a1b1e", "#2b2d31"]); const [cg, cgd] = grad(["#f1dc9a", "#b8953f"]);
+      const nm = esc(NAME.toUpperCase());
+      return store({ bg: "#111214", fg: "#f2f2f2", label: "#a8a8a8", header: ["Contributions", S.total], qr: true, fields: F3,
+        strip: svg(375, 144, `${gd}${cgd}<rect width="375" height="144" fill="url(#${g})"/><rect x="18" y="14" width="36" height="27" rx="5" fill="url(#${cg})"/><path d="M18 27.5h36M30 14v27M42 14v27" stroke="#8a6d2a" stroke-width=".8"/>${[7, 12, 17].map((r) => `<path d="M${62 + r * .55},${27.5 - r} a${r},${r} 0 0 1 0,${r * 2}" fill="none" stroke="#bdbdbd" stroke-width="1.6" stroke-linecap="round"/>`).join("")}<text x="357" y="34" text-anchor="end" font-family="Instrument Serif" font-style="italic" font-size="20" fill="#d9d9d9">gitcard</text>${heat({ x: 14, y: 50, w: 347, h: 50, pal: ["#ffffff10", "#6f7cff66", "#7fd7ffa0", "#c3a6ffd0", "#ffe3a3"] })}<text x="15.8" y="129.8" font-family="Geist Mono" font-weight="500" font-size="15" letter-spacing="2" fill="#00000099">${nm}</text><text x="15" y="129" font-family="Geist Mono" font-weight="500" font-size="15" letter-spacing="2" fill="#e8e8e8">${nm}</text><text x="360" y="118" text-anchor="end" font-family="Geist Mono" font-size="7" fill="#9a9a9a">MEMBER SINCE</text><text x="360" y="130" text-anchor="end" font-family="Geist Mono" font-size="11" fill="#e8e8e8">${S.since}</text>`) });
+    },
+  },
+  {
+    name: "Activity Rings", note: "Apple Fitness rings for active days, weeks and months, with your photo in the middle.",
+    html: () => {
+      const cx = 72, cy = 72;
+      const rings = [[60, active / N, "#fa114f", "Active days", active, N], [46, weeksActive / COLS, "#92e82a", "Active weeks", weeksActive, COLS], [32, monthsActive / ML.length, "#1eeaef", "Active months", monthsActive, ML.length]];
+      const arcs = rings.map(([r, f, col]) => { const c = 2 * Math.PI * r; return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-opacity=".22" stroke-width="12"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(f * c).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 ${cx} ${cy})"/>`; }).join("");
+      const text = rings.map(([, , col, lab, v, of], j) => `<text x="156" y="${24 + j * 42}" font-family="Geist" font-weight="600" font-size="9" letter-spacing=".6" fill="${col}">${lab.toUpperCase()}</text><text x="156" y="${46 + j * 42}" font-family="Geist" font-weight="600" font-size="21" fill="#fff">${v}<tspan font-size="13" fill="#8e8e93">/${of}</tspan></text>`).join("");
+      return store({ bg: "#000", fg: "#fff", label: "#8e8e93", header: ["Contributions", S.total], qr: true, fields: [["Streak", S.streak], ["Best day", String(MAX)], ["Since", S.since]],
+        strip: svg(375, 144, `<rect width="375" height="144" fill="#000"/>${arcs}${avatar(cx, cy, 21)}${text}`) });
+    },
+  },
+  {
+    name: "Weekday", note: "Which day of the week you really ship on, from all your days this year.",
+    html: () => {
+      const order = [1, 2, 3, 4, 5, 6, 0], m = Math.max(...wd, 1);
+      const bars = order.map((d, j) => { const h = Math.max(2, (wd[d] / m) * 96); return `<rect x="${206 + j * 22.6}" y="${118 - h}" width="16" height="${h}" rx="3" fill="${d === topWd ? "#ea580c" : "#fdba74"}"/><text x="${214 + j * 22.6}" y="134" text-anchor="middle" font-family="Geist Mono" font-size="9" fill="#9a3412">${DOWL[d][0]}</text>`; }).join("");
+      return store({ bg: "#fff7ed", fg: "#1c1917", label: "#c2410c", header: ["Contributions", S.total], qr: true, fields: F3,
+        strip: svg(375, 144, `<rect width="375" height="144" fill="#fff7ed"/><text x="16" y="40" font-family="Geist Mono" font-size="10" fill="#c2410c">YOU SHIP MOST ON</text><text x="15" y="76" font-family="Bricolage Grotesque" font-weight="800" font-size="34" fill="#1c1917">${DOWL[topWd]}s</text><text x="16" y="100" font-family="Geist" font-size="12" fill="#57534e">${Math.round((wd[topWd] / D.total) * 100)}% of your year</text>${bars}`) });
+    },
+  },
+  {
+    name: "Synthwave", note: "Your photo as the setting sun over a neon floor; the floor is your contribution grid in perspective.",
+    html: () => {
+      const H0 = 80, e = (k) => H0 + 64 * Math.pow(k / 7, 1.5), cw = (y) => 2.6 + (375 / COLS - 2.6) * (y - H0) / 64, X = (w, y) => 187.5 + (w - COLS / 2) * cw(y);
+      const pal = ["#ff3d9a1a", "#7a2cff", "#b23cff", "#ff3d9a", "#ffd166"];
+      const floor = D.counts.map((_, i) => { const k = i + OFF, w = Math.floor(k / 7), d = k % 7, a = e(d), b = e(d + 1), y0 = a + (b - a) * .14, y1 = b - (b - a) * .14; return `<polygon points="${[[X(w + .12, y0), y0], [X(w + .88, y0), y0], [X(w + .88, y1), y1], [X(w + .12, y1), y1]].map((q) => q.map((v) => v.toFixed(1)).join(",")).join(" ")}" fill="${pal[LV[i]]}"/>`; }).join("");
+      const [g, gd] = grad(["#14051f", "#4a0f5c", "#ff3d9a"], 0, 1); const sr = 30, sy = 52;
+      const stripes = [[62, 2], [69, 3], [75, 4]].map(([y, h]) => { const half = Math.sqrt(Math.max(0, sr * sr - (y - sy) ** 2)); return `<rect x="${187.5 - half}" y="${y}" width="${half * 2}" height="${h}" fill="#c41f78"/>`; }).join("");
+      return store({ bg: "#14051f", fg: "#ffe6ff", label: "#ff5fd2", header: ["Contributions", S.total], qr: true, fields: F3,
+        strip: svg(375, 144, `${gd}<rect width="375" height="${H0}" fill="url(#${g})"/>${avatar(187.5, sy, sr, "#ffd166")}${stripes}<rect y="${H0}" width="375" height="${144 - H0}" fill="#14051f"/><line x1="0" x2="375" y1="${H0}" y2="${H0}" stroke="#ff3d9a" stroke-width="1.5"/>${floor}`) });
+    },
+  },
+  {
+    name: "Pocket Console", note: "Four-shade handheld screen: your avatar in pixels, XP and the year as a level map.",
+    html: () => {
+      const gb = ["#0f380f", "#306230", "#8bac0f", "#9bbc0f"];
+      return store({ bg: "#9bbc0f", fg: "#0f380f", label: "#306230", header: ["XP", S.total], noAvatar: true, logoText: "gitcard", qr: true, fields: F3,
+        strip: svg(375, 144, `<rect width="375" height="144" fill="#8bac0f"/><rect x="10" y="10" width="124" height="124" fill="#0f380f"/>${pixelArt({ x: 14, y: 14, size: 116, n: 24, pal: gb })}<text x="146" y="30" font-family="Press Start 2P" font-size="9" fill="#0f380f">${esc(LOGIN.toUpperCase().slice(0, 21))}</text><text x="146" y="54" font-family="Press Start 2P" font-size="14" fill="#0f380f">XP ${S.total}</text><text x="146" y="74" font-family="Press Start 2P" font-size="7" fill="#306230">STREAK ${longest}  BEST ${MAX}</text>${heat({ x: 146, y: 84, w: 217, h: 46, pal: ["#a9c64a", "#5e8a1c", "#306230", "#1f4a1f", "#0f380f"], r: 0, gap: .12 })}`) });
+    },
+  },
+  {
+    name: "Aurora Glass", note: "Soft aurora behind a glass panel holding your photo, name, handle and the full year.",
+    html: () => {
+      const f = id("f");
+      return store({ bg: "#0b1026", fg: "#fff", label: "#c4b5fd", header: ["Contributions", S.total], noAvatar: true, logoText: "gitcard", qr: true, fields: F3,
+        strip: svg(375, 144, `<defs><filter id="${f}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22"/></filter></defs><rect width="375" height="144" fill="#0b1026"/><g filter="url(#${f})"><circle cx="60" cy="40" r="60" fill="#7c3aed"/><circle cx="220" cy="110" r="70" fill="#06b6d4"/><circle cx="340" cy="30" r="55" fill="#22c55e"/></g><rect x="10" y="10" width="355" height="124" rx="14" fill="#ffffff1a" stroke="#ffffff40"/>${avatar(44, 44, 22, "#ffffff66")}<text x="76" y="42" font-family="Bricolage Grotesque" font-weight="600" font-size="18" fill="#fff">${esc(NAME)}</text><text x="76" y="59" font-family="Geist Mono" font-size="11" fill="#ddd6fe">@${esc(LOGIN)}</text>${heat({ x: 22, y: 76, w: 331, h: 50, pal: ["#ffffff1f", "#ffffff55", "#ffffff88", "#ffffffc0", "#ffffff"] })}`) });
+    },
+  },
+  {
+    name: "Polaroid", note: "A taped instant photo with your handle written on it, beside a paper slip of your year.",
+    html: () => {
+      const f = id("f"), c = id("c");
+      return store({ bg: "#efe7da", fg: "#2b2420", label: "#9a6b3f", header: ["Contributions", S.total], noAvatar: true, logoText: "gitcard", qr: true, fields: F3,
+        strip: svg(375, 144, `<defs><filter id="${f}"><feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity=".25"/></filter><clipPath id="${c}"><rect x="26" y="16" width="92" height="92"/></clipPath></defs><rect width="375" height="144" fill="#e6d9c5"/><g transform="rotate(-5 72 72)" filter="url(#${f})"><rect x="18" y="8" width="108" height="130" fill="#fdfcf8"/><image href="${AV}" x="26" y="16" width="92" height="92" preserveAspectRatio="xMidYMid slice" clip-path="url(#${c})"/><text x="72" y="128" text-anchor="middle" font-family="Caveat" font-weight="600" font-size="15" fill="#2b2420">@${esc(LOGIN)}</text></g><g transform="rotate(1.5 250 72)" filter="url(#${f})"><rect x="142" y="24" width="220" height="96" fill="#fffdf8"/><text x="154" y="56" font-family="Caveat" font-weight="600" font-size="26" fill="#2b2420">${S.total} this year</text>${heat({ x: 152, y: 66, w: 200, h: 46, pal: ["#ece4d4", "#c9d9a7", "#93bf6f", "#5c9a45", "#2f6b2c"] })}</g><rect x="236" y="16" width="40" height="14" fill="#f2e3a0b0" transform="rotate(-4 256 23)"/>`) });
+    },
+  },
+  {
+    name: "Big Handle", note: "Your photo and handle fill the banner, the year printed underneath as a texture.",
+    html: () => {
+      const lines = splitHandle(), size = Math.min(40, 238 / (Math.max(...lines.map((l) => l.length)) * 0.74));
+      const top = 72 - (lines.length * size * 0.98) / 2 + size * 0.78;
+      return store({ bg: "#d7ff3a", fg: "#0b0b0b", label: "#3d4a00", header: ["Contributions", S.total], noAvatar: true, logoText: "gitcard", qr: true, fields: F3,
+        strip: svg(375, 144, `<rect width="375" height="144" fill="#d7ff3a"/>${heat({ x: 6, y: 6, w: 363, h: 132, pal: ["#00000008", "#0000001a", "#00000030", "#0000004a", "#00000075"], mode: "bands" })}${avatar(64, 72, 50, "#0b0b0b")}${lines.map((l, k) => `<text x="128" y="${(top + k * size * 0.98).toFixed(1)}" font-family="Archivo Black" font-size="${size.toFixed(1)}" letter-spacing="-1" fill="#0b0b0b">${esc(l)}</text>`).join("")}`) });
+    },
+  },
+];
+
+const ink = ["#e3dccb", "#bdb4a0", "#8c8370", "#544d40", "#1a1a1a"];
+const POSTER2 = [
+  {
+    name: "Bento", note: "Tiles: photo, total, three real stats and the full year. Reads like a profile page.",
+    html: () => {
+      const tile = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${fill}"/>`; const c = id("c");
+      const stat = (x, lab, v, fill, fg, lg) => `${tile(x, 176, 106, 84, fill)}<text x="${x + 12}" y="196" font-family="Geist" font-weight="600" font-size="9" letter-spacing=".5" fill="${lg}">${lab}</text><text x="${x + 12}" y="242" font-family="Bricolage Grotesque" font-weight="800" font-size="30" fill="${fg}">${v}</text>`;
+      return poster({ bg: "#f2f2ef", fg: "#111", label: "#666", header: ["Since", S.since], primary: NAME, footer: `@${LOGIN}`,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#f2f2ef"/><defs><clipPath id="${c}"><rect x="12" y="48" width="120" height="120" rx="14"/></clipPath></defs><image href="${AV}" x="12" y="48" width="120" height="120" preserveAspectRatio="xMidYMid slice" clip-path="url(#${c})"/>${tile(140, 48, 206, 120, "#0d1117")}<text x="156" y="72" font-family="Geist" font-weight="600" font-size="9" letter-spacing=".5" fill="#7d8590">CONTRIBUTIONS</text><text x="154" y="140" font-family="Archivo Black" font-size="56" letter-spacing="-2" fill="#39d353">${S.total}</text><text x="156" y="158" font-family="Geist" font-size="10" fill="#7d8590">last 12 months</text>${stat(12, "ACTIVE DAYS", S.active, "#fff", "#111", "#666")}${stat(126, "STREAK", longest + "d", "#fff", "#111", "#666")}${stat(240, "BEST DAY", MAX, "#39d353", "#0d1117", "#0d4a22")}${tile(12, 268, 334, 92, "#fff")}<text x="24" y="287" font-family="Geist" font-weight="600" font-size="9" letter-spacing=".5" fill="#666">EVERY DAY</text>${heat({ x: 22, y: 294, w: 314, h: 58, pal: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"] })}`, "art") });
+    },
+  },
+  {
+    name: "Ridgelines", note: "Each month is a line, each bump a day. White on black, like a pulsar plot.",
+    html: () => {
+      const all = monthList(false).filter((m) => m.days.length > 7).slice(-12);
+      const lines = all.map((m, j) => {
+        const y0 = 112 + j * 21;
+        const pts = m.days.map((i, n) => { const v = (D.counts[i - 1] ?? 0) * .25 + D.counts[i] * .5 + (D.counts[i + 1] ?? 0) * .25; return [44 + (n / 30) * 296, y0 - Math.sqrt(v / MAX) * 52]; });
+        const d = pts.map((q, n) => `${n ? "L" : "M"}${q[0].toFixed(1)},${q[1].toFixed(1)}`).join("");
+        return `<path d="${d}L${pts[pts.length - 1][0].toFixed(1)},${y0 + 4}L44,${y0 + 4}Z" fill="#000"/><path d="${d}" fill="none" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><text x="14" y="${y0}" font-family="Geist Mono" font-size="8" fill="#777">${MON[m.m].toUpperCase()}</text>`;
+      }).join("");
+      return poster({ bg: "#000", fg: "#fff", label: "#888", header: ["Contributions", S.total], primary: NAME, footer: `Busiest: ${MONL[topM.m]} · ${fmt(topM.total)}`, chip: true,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#000"/>${lines}`, "art") });
+    },
+  },
+  {
+    name: "Pixel Portrait", note: "Your avatar redrawn in GitHub's five contribution greens, 32 squares across.",
+    html: () => poster({ bg: "#0d1117", fg: "#e6edf3", label: "#7d8590", header: ["Contributions", S.total], primary: NAME, footer: `@${LOGIN} · last 12 months`,
+      art: svg(358, 448, `<rect width="358" height="448" fill="#0d1117"/>${pixelArt({ x: 19, y: 48, size: 320, n: 32, pal: GH, gap: .14, r: .2 })}`, "art") }),
+  },
+  {
+    name: "Receipt", note: "A till receipt of your year: every month itemised, the total, and a barcode made of your weeks.",
+    html: () => {
+      const mono = `font-family="JetBrains Mono"`, ms = monthList(false), x0 = 52, x1 = 306;
+      const rows = ms.map((m, j) => `<text x="${x0}" y="${118 + j * 11.5}" ${mono} font-size="9" fill="#333">${MON[m.m].toUpperCase()} '${String(m.y).slice(2)}</text><text x="${x1}" y="${118 + j * 11.5}" text-anchor="end" ${mono} font-size="9" fill="#333">${fmt(m.total)}</text>`).join("");
+      const yT = 118 + ms.length * 11.5 + 4, bw = (x1 - x0) / weekly.length, vmax = Math.max(...weekly, 1);
+      const bars = weekly.map((v, i) => `<rect x="${(x0 + i * bw).toFixed(2)}" y="${yT + 38}" width="${(bw * (v ? .35 + .6 * v / vmax : .15)).toFixed(2)}" height="20" fill="#222"/>`).join("");
+      return poster({ bg: "#1f1f1f", fg: "#fff", label: "#aaa", header: ["Since", S.since], primary: NAME, footer: `Updated ${updated}`, chip: true,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#1f1f1f"/><path d="M34,46H324V${yT + 66}${Array.from({ length: 30 }, (_, i) => `L${324 - (i + .5) * 9.67},${yT + 72}L${324 - (i + 1) * 9.67},${yT + 66}`).join("")}Z" fill="#faf8f2"/><text x="179" y="74" text-anchor="middle" ${mono} font-weight="700" font-size="13" fill="#222">GITCARD MARKET</text><text x="179" y="90" text-anchor="middle" ${mono} font-size="9.5" fill="#555">@${esc(LOGIN)}</text><line x1="${x0}" x2="${x1}" y1="104" y2="104" stroke="#999" stroke-dasharray="3 3"/>${rows}<line x1="${x0}" x2="${x1}" y1="${yT - 4}" y2="${yT - 4}" stroke="#999" stroke-dasharray="3 3"/><text x="${x0}" y="${yT + 14}" ${mono} font-weight="700" font-size="13" fill="#222">TOTAL</text><text x="${x1}" y="${yT + 14}" text-anchor="end" ${mono} font-weight="700" font-size="13" fill="#222">${S.total}</text><text x="${x0}" y="${yT + 32}" ${mono} font-size="8.5" fill="#555">ACTIVE ${S.active} · STREAK ${longest} · BEST ${MAX}</text>${bars}`, "art") });
+    },
+  },
+  {
+    name: "Passport", note: "A data page: photo, name, handle, join year, and your year stamped as a visa.",
+    html: () => {
+      const pf = (lab, v, y) => `<text x="136" y="${y}" font-family="Geist Mono" font-size="7.5" fill="#7a5c2e">${lab}</text><text x="136" y="${y + 14}" font-family="Geist" font-weight="600" font-size="13" fill="#1b2a3a">${esc(v)}</text>`;
+      const pad = (s) => (s + "<".repeat(40)).slice(0, 40);
+      const mrz1 = pad(`P<GHB${NAME.toUpperCase().replace(/[^A-Z]+/g, "<")}`), mrz2 = pad(`${LOGIN.toUpperCase()}<<${String(D.total).padStart(6, "0")}<${since}<${String(longest).padStart(3, "0")}`);
+      const guil = Array.from({ length: 14 }, (_, k) => `<ellipse cx="179" cy="190" rx="${60 + k * 14}" ry="${30 + k * 9}" fill="none" stroke="#b9cdb7" stroke-width=".6" opacity=".6"/>`).join("");
+      const c = id("c");
+      return poster({ bg: "#e9efe4", fg: "#1b2a3a", label: "#7a5c2e", header: ["Contributions", S.total], primary: `@${LOGIN}`, footer: `Member since ${S.since}`,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#e9efe4"/>${guil}<text x="20" y="64" font-family="Geist Mono" font-size="8.5" letter-spacing="1.5" fill="#7a5c2e">GITHUB · CONTRIBUTOR PASS</text><defs><clipPath id="${c}"><rect x="20" y="76" width="102" height="130" rx="4"/></clipPath></defs><image href="${AV}" x="20" y="76" width="102" height="130" preserveAspectRatio="xMidYMid slice" clip-path="url(#${c})"/>${pf("NAME", NAME, 84)}${pf("HANDLE", "@" + LOGIN, 112)}${pf("MEMBER SINCE", S.since, 140)}${pf("LONGEST STREAK", S.streak, 168)}<g transform="rotate(-2.5 179 254)"><rect x="24" y="218" width="310" height="72" rx="8" fill="none" stroke="#6b4fa0" stroke-width="1.6" stroke-dasharray="5 2"/><text x="36" y="233" font-family="Geist Mono" font-size="7.5" letter-spacing="1" fill="#6b4fa0">ENTRY STAMP · LAST 12 MONTHS · ${S.total}</text>${heat({ x: 32, y: 238, w: 294, h: 46, pal: ["#6b4fa014", "#6b4fa055", "#6b4fa088", "#6b4fa0bb", "#6b4fa0"] })}</g><text x="18" y="322" font-family="JetBrains Mono" font-size="11" fill="#1b2a3a" textLength="322" lengthAdjust="spacingAndGlyphs">${esc(mrz1)}</text><text x="18" y="339" font-family="JetBrains Mono" font-size="11" fill="#1b2a3a" textLength="322" lengthAdjust="spacingAndGlyphs">${esc(mrz2)}</text>`, "art") });
+    },
+  },
+  {
+    name: "The Daily Commit", note: "Front page: masthead, your handle as the headline, a press photo and the year as Fig. 1.",
+    html: () => {
+      const f = id("f"), c = id("c");
+      return poster({ bg: "#f4f0e6", fg: "#1a1a1a", label: "#7a6f5a", header: ["Contributions", S.total], primary: NAME, footer: `Updated ${updated}`,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#f4f0e6"/><defs><filter id="${f}"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope="1.25" intercept="-.1"/><feFuncG type="linear" slope="1.25" intercept="-.1"/><feFuncB type="linear" slope="1.25" intercept="-.1"/></feComponentTransfer></filter><clipPath id="${c}"><rect x="14" y="182" width="150" height="150"/></clipPath></defs><text x="179" y="86" text-anchor="middle" font-family="UnifrakturMaguntia" font-size="36" fill="#1a1a1a">The Daily Commit</text><rect x="14" y="96" width="330" height="1.6" fill="#1a1a1a"/><rect x="14" y="99.5" width="330" height=".6" fill="#1a1a1a"/><text x="179" y="111" text-anchor="middle" font-family="Geist Mono" font-size="7.5" letter-spacing="1" fill="#7a6f5a">EST. ${since} · ${updated.toUpperCase()} · LAST 12 MONTHS</text><text x="14" y="142" font-family="Instrument Serif" font-size="30" fill="#1a1a1a">@${esc(LOGIN)}</text><text x="14" y="168" font-family="Instrument Serif" font-style="italic" font-size="21" fill="#3b372e">ships ${S.total} contributions</text><image href="${AV}" x="14" y="182" width="150" height="150" preserveAspectRatio="xMidYMid slice" clip-path="url(#${c})" filter="url(#${f})"/><text x="176" y="190" font-family="Geist Mono" font-size="7" letter-spacing=".5" fill="#7a6f5a">FIG. 1 · EVERY DAY OF THE YEAR</text>${heat({ x: 176, y: 196, w: 168, h: 96, pal: ink, mode: "bands", r: 0 })}<text x="176" y="312" font-family="Instrument Serif" font-size="12" fill="#1a1a1a">Busiest day: ${bestDay}, with ${MAX}.</text><text x="176" y="328" font-family="Instrument Serif" font-size="12" fill="#1a1a1a">Longest run: ${S.streak}.</text>`, "art") });
+    },
+  },
+  {
+    name: "Year in Review", note: "Story-style recap: the total huge, your top month and top weekday, a sticker of your photo.",
+    html: () => {
+      const vmax = Math.max(...weekly, 1), bw = 330 / weekly.length;
+      const wave = weekly.map((v, i) => { const h = 3 + (v / vmax) * 26; return `<rect x="${(14 + i * bw).toFixed(2)}" y="${(346 - h).toFixed(2)}" width="${(bw * .6).toFixed(2)}" height="${h.toFixed(2)}" rx="1.5" fill="#d4ff3f"/>`; }).join("");
+      return poster({ bg: "#2d1bff", fg: "#fff", label: "#d4ff3f", header: ["Since", S.since], primary: NAME, footer: `@${LOGIN} · last 12 months`,
+        art: svg(358, 448, `<rect width="358" height="448" fill="#2d1bff"/><circle cx="330" cy="40" r="90" fill="#4a3bff"/><text x="16" y="74" font-family="Geist Mono" font-size="11" fill="#d4ff3f">@${esc(LOGIN)}'s year</text><text x="12" y="172" font-family="Archivo Black" font-size="${D.total > 9999 ? 72 : 100}" letter-spacing="-4" fill="#d4ff3f">${S.total}</text><text x="16" y="202" font-family="Bricolage Grotesque" font-weight="800" font-size="26" fill="#fff">contributions</text><g transform="rotate(8 296 116)">${avatar(296, 116, 40, "#d4ff3f")}</g><text x="16" y="240" font-family="Geist Mono" font-size="9" letter-spacing="1" fill="#c9c3ff">TOP MONTH</text><text x="16" y="266" font-family="Bricolage Grotesque" font-weight="800" font-size="24" fill="#fff">${MONL[topM.m]} · ${fmt(topM.total)}</text><text x="16" y="294" font-family="Geist Mono" font-size="9" letter-spacing="1" fill="#c9c3ff">TOP WEEKDAY</text><text x="16" y="320" font-family="Bricolage Grotesque" font-weight="800" font-size="24" fill="#fff">${DOWL[topWd]}s</text>${wave}`, "art") });
+    },
+  },
+];
+
+function render() {
+  let n = 0;
+  for (const [el, list, tag] of [["store", STORE, "Store card"], ["poster", POSTER, "Poster · iOS 27+"], ["generic", GENERIC, "Generic"], ["store2", STORE2, "Store card"], ["poster2", POSTER2, "Poster · iOS 27+"]]) {
+    document.getElementById(el).innerHTML = list.map((c) => `<figure>${c.html()}<figcaption><div class="cap-top"><span class="num">#${++n}</span><span class="name">${c.name}</span><span class="pill">${tag}</span></div><p>${c.note}</p></figcaption></figure>`).join("");
+  }
+  document.getElementById("who").textContent = LOGIN;
+}
+// Pixel concepts sample the avatar, so render once it has decoded.
+IMG.decode().catch(() => {}).finally(render);
+</script>
