@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { CardReveal } from "@/components/card-reveal";
 import { Editor } from "@/components/editor";
 import { LUM, cardHtml, pickTheme } from "@/lib/designs";
 import { iosMajor } from "@/lib/ios";
@@ -77,7 +78,7 @@ function Landing({ error }: { error?: string }) {
         {error && <p className="text-sm text-red-600">{error}</p>}
       </div>
       <div className="mx-auto w-full max-w-[380px]">
-        <div dangerouslySetInnerHTML={{ __html: cardHtml(design, mode, sample) }} />
+        <CardReveal html={cardHtml(design, mode, sample)} />
         <p className="mt-2 text-center text-xs text-muted">Sample card</p>
       </div>
     </div>
