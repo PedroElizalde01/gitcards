@@ -71,6 +71,10 @@ pnpm typecheck && pnpm lint && pnpm test
 - Device registrations store Wallet's device id and push token only.
 - **Delete my data** revokes the GitHub grant and removes the user and their registrations. Installed passes stop updating.
 
+## License
+
+Code: [MIT](LICENSE). Excluded: the fonts (SIL OFL) and the Add to Apple Wallet badge (Apple's artwork license).
+
 ## Credits
 
 Not affiliated with GitHub or Apple. Apple Wallet and the Add to Apple Wallet badge are trademarks of Apple Inc., used per Apple's guidelines. Fonts are under the SIL Open Font License (`public/fonts/LICENSE.txt`).
