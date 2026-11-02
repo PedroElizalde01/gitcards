@@ -1,6 +1,6 @@
 import { AsciiReveal } from "ascii-reveal";
 import { headers } from "next/headers";
-import { CardReveal } from "@/components/card-reveal";
+import { CardCycle } from "@/components/card-reveal";
 import { Editor } from "@/components/editor";
 import { LUM, cardHtml, pickTheme } from "@/lib/designs";
 import { iosMajor } from "@/lib/ios";
@@ -61,7 +61,11 @@ function Landing({ error }: { error?: string }) {
     avatar: "https://avatars.githubusercontent.com/u/583231?s=120",
     lum: Array(LUM * LUM).fill(0.5),
   };
-  const { design, mode } = pickTheme("rings:dark");
+  // ponytail: 6 light designs (~60 KB HTML); all 14 would add ~365 KB to the landing page.
+  const cards = ["rings:dark", "ridges:light", "bars:dark", "clock:dark", "id:light", "weekday:dark"].map((t) => {
+    const { design, mode } = pickTheme(t);
+    return { name: design.name, html: cardHtml(design, mode, sample) };
+  });
   return (
     <div className="grid flex-1 items-center gap-10 md:grid-cols-2">
       <AsciiReveal preset="decode" duration="cinematic" revealOnHydrate className="flex flex-col gap-5 [--ascii-flash:#3dff6e] [--ascii-font:var(--font-geist-mono)]">
@@ -80,8 +84,7 @@ function Landing({ error }: { error?: string }) {
         {error && <p className="text-sm text-red-600">{error}</p>}
       </AsciiReveal>
       <div className="mx-auto w-full max-w-[380px]">
-        <CardReveal html={cardHtml(design, mode, sample)} />
-        <p className="mt-2 text-center text-xs text-muted">Sample card</p>
+        <CardCycle cards={cards} />
       </div>
     </div>
   );
