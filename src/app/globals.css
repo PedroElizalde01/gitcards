@@ -58,7 +58,6 @@ body {
 .card .code { margin-top: auto; padding-bottom: 4.67cqw; display: grid; justify-items: center; gap: 1.33cqw; }
 .card .qr { background: #fff; border-radius: 2cqw; padding: 2cqw; width: 30.7cqw; height: 30.7cqw; }
 .card .qr svg { width: 100%; height: 100%; display: block; }
-.card .alt { font-size: 3.33cqw; opacity: .75; }
 .card .art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .card .ptop { position: absolute; inset: 0 0 auto; display: flex; align-items: flex-start; padding: 4cqw 4.67cqw; }
 .card .pchip { display: flex; align-items: center; gap: 2cqw; max-width: 39cqw; font-size: 3.67cqw; font-weight: 600; }

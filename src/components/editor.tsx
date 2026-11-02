@@ -36,9 +36,10 @@ export function Editor({ profile, initialTheme, ios, canSign }: { profile: Profi
         {canSign ? (
           <div className="flex flex-col items-center gap-2">
             {/* The download saves the chosen design first; an installed card switches to it too. */}
-            <a href={`/api/pass?theme=${id}:${mode}`} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-black px-6 font-medium text-white ring-1 ring-white/20 hover:bg-black/85">
-              <WalletIcon />
-              Add to Apple Wallet
+            <a href={`/api/pass?theme=${id}:${mode}`} className="rounded-lg hover:opacity-85">
+              {/* Apple's official badge artwork, unmodified (Add to Apple Wallet guidelines). */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/wallet/add-to-apple-wallet.svg" alt="Add to Apple Wallet" className="h-12 w-auto" />
             </a>
             <p className="text-center text-xs text-muted">
               {design.layout === "poster" && ios === null
@@ -75,14 +76,5 @@ export function Editor({ profile, initialTheme, ios, canSign }: { profile: Profi
         )}
       </div>
     </div>
-  );
-}
-
-function WalletIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
-      <rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M3 9h18M3 12.5h18" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
   );
 }

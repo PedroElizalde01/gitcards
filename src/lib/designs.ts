@@ -3,6 +3,7 @@
  * inline in the web preview, and rendered to PNG by resvg for the pass. Same code, so they can't drift.
  * Isomorphic: no Node or browser APIs.
  */
+import qrcode from "qrcode-generator";
 
 /** A contribution calendar: the first day (YYYY-MM-DD) and one count per day from there. */
 export interface Calendar {
@@ -402,17 +403,15 @@ export function logoSvg(s: Ctx): string {
 
 const fieldHtml = ([l, v]: Field, p: Pal) => `<div><div class="lab" style="color:${p.label}">${esc(l)}</div><div class="val">${esc(v)}</div></div>`;
 const row = (fs: Field[], p: Pal) => `<div class="fields" style="--n:${fs.length}">${fs.map((f) => fieldHtml(f, p)).join("")}</div>`;
-/** Stand-in for the real QR (it links to the GitHub profile). */
+/** Real QR of the GitHub profile URL, same as the pass barcode. */
 function qrHtml(s: Ctx) {
-  let seed = [...s.S.login].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
-  const rnd = () => ((seed = (seed * 1103515245 + 12345) >>> 0) >>> 16) & 1;
+  const q = qrcode(0, "M");
+  q.addData(`https://github.com/${s.S.login}`);
+  q.make();
+  const n = q.getModuleCount();
   let d = "";
-  for (let y = 0; y < 21; y++) for (let x = 0; x < 21; x++) {
-    const finder = (x < 7 || x > 13) && y < 7 || (x < 7 && y > 13);
-    if (finder ? false : rnd()) d += `M${x},${y}h1v1h-1z`;
-  }
-  const f = (x: number, y: number) => `M${x},${y}h7v7h-7zM${x + 1},${y + 1}v5h5v-5zM${x + 2},${y + 2}h3v3h-3z`;
-  return `<div class="code"><div class="qr"><svg viewBox="0 0 21 21" shape-rendering="crispEdges"><path d="${d}${f(0, 0)}${f(14, 0)}${f(0, 14)}" fill="#000" fill-rule="evenodd"/></svg></div><div class="alt">github.com/${esc(s.S.login)}</div></div>`;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (q.isDark(y, x)) d += `M${x},${y}h1v1h-1z`;
+  return `<div class="code"><div class="qr"><svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path d="${d}" fill="#000"/></svg></div></div>`;
 }
 
 /** The whole card front as HTML (styles in globals.css under .card). */

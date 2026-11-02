@@ -97,7 +97,7 @@ export async function buildPass(u: User, signer: PassSigner): Promise<Buffer> {
     labelColor: rgb(p.label),
     // Apple only calls HTTPS; local passes simply don't update.
     ...(SITE.startsWith("https://") ? { webServiceURL: `${SITE}/api/wallet`, authenticationToken: u.pass_token } : {}),
-    barcodes: [{ format: "PKBarcodeFormatQR", message: url, messageEncoding: "iso-8859-1", altText: `github.com/${u.login}` }],
+    barcodes: [{ format: "PKBarcodeFormatQR", message: url, messageEncoding: "iso-8859-1" }],
   };
   // name -> SVG in points, rendered at @1x/@2x/@3x
   const images: Record<string, string> = {};
