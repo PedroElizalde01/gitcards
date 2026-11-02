@@ -1,3 +1,4 @@
+import { AsciiReveal } from "ascii-reveal";
 import { headers } from "next/headers";
 import { CardReveal } from "@/components/card-reveal";
 import { Editor } from "@/components/editor";
@@ -63,20 +64,21 @@ function Landing({ error }: { error?: string }) {
   const { design, mode } = pickTheme("rings:dark");
   return (
     <div className="grid flex-1 items-center gap-10 md:grid-cols-2">
-      <div className="flex flex-col gap-5">
+      <AsciiReveal preset="decode" duration="cinematic" revealOnHydrate className="flex flex-col gap-5 [--ascii-flash:#3dff6e] [--ascii-font:var(--font-geist-mono)]">
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Your GitHub, in your Wallet.</h1>
         <p className="text-lg text-muted">
           Sign in with GitHub, pick a design and add your contribution graph to Apple Wallet. It updates itself every day.
         </p>
         <a
           href="/api/auth/github/start"
+          data-ascii="fade"
           className="inline-flex h-12 items-center gap-2 self-start rounded-full bg-foreground px-6 font-medium text-background hover:opacity-90"
         >
           Continue with GitHub
         </a>
         <p className="text-xs text-muted">Read-only: gitcard asks for no permissions and only sees your public profile and contribution counts.</p>
         {error && <p className="text-sm text-red-600">{error}</p>}
-      </div>
+      </AsciiReveal>
       <div className="mx-auto w-full max-w-[380px]">
         <CardReveal html={cardHtml(design, mode, sample)} />
         <p className="mt-2 text-center text-xs text-muted">Sample card</p>

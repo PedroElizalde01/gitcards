@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { CardReveal } from "@/components/card-reveal";
 import { DESIGNS, POSTER_MIN_IOS, cardHtml, fitsIOS, pickTheme, type Design, type Mode, type Profile } from "@/lib/designs";
 
 /**
@@ -22,7 +23,7 @@ export function Editor({ profile, initialTheme, ios, canSign }: { profile: Profi
   return (
     <div className="grid gap-8 md:grid-cols-[minmax(0,360px)_1fr] md:items-start">
       <div className="mx-auto flex w-full max-w-[360px] flex-col gap-4 md:sticky md:top-8">
-        <div dangerouslySetInnerHTML={{ __html: cardHtml(design, mode, profile, `${id}-${mode}-big`) }} />
+        <CardReveal html={cardHtml(design, mode, profile, `${id}-${mode}-big`)} />
 
         <div role="radiogroup" aria-label="Color mode" className="flex self-center rounded-full border border-line p-1 text-sm">
           {(["dark", "light"] as const).map((m) => (
