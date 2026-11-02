@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Remotion trailer: its own package and lint setup.
+    "video/**",
   ]),
 ]);
 

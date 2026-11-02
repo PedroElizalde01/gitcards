@@ -1,0 +1,27 @@
+{
+  "name": "gitcard-trailer",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Trailer out/gitcard-trailer.mp4 --codec=h264 --crf=16",
+    "render:vertical": "remotion render src/index.ts TrailerVertical out/gitcard-trailer-vertical.mp4 --codec=h264 --crf=16",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.536",
+    "@remotion/fonts": "4.0.536",
+    "@remotion/motion-blur": "4.0.536",
+    "@remotion/transitions": "4.0.536",
+    "qrcode-generator": "2.0.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "remotion": "4.0.536"
+  },
+  "devDependencies": {
+    "@remotion/bundler": "4.0.536",
+    "@remotion/renderer": "4.0.536",
+    "@types/react": "19.3.0",
+    "typescript": "5.9.3"
+  }
+}

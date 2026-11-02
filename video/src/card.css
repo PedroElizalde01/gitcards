@@ -1,0 +1,33 @@
+/* Mirror of the .card rules in ../../src/app/globals.css (line 43 on). Re-copy if the app's card CSS changes. */
+
+/* Wallet card preview (markup from cardHtml). Sized in cqw so it scales with its width; native text uses the system font, like Wallet. */
+.card { container-type: inline-size; width: 100%; border-radius: 13px; overflow: hidden; position: relative; font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; box-shadow: 0 1px 0 rgb(0 0 0 / .04), 0 12px 32px -12px rgb(0 0 0 / .35); }
+.card.store, .card.generic { aspect-ratio: 300 / 392; display: flex; flex-direction: column; }
+.card.poster { aspect-ratio: 358 / 448; }
+.card .top { display: flex; align-items: center; gap: 2.67cqw; padding: 3.33cqw 4cqw 2.67cqw; min-height: 15.3cqw; }
+.card .logo { width: 9.33cqw; height: 9.33cqw; border-radius: 50%; object-fit: cover; flex: none; }
+.card .logotext { font-size: 5cqw; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.card .hdr { margin-left: auto; text-align: right; flex: none; }
+.card .lab { font-size: 3cqw; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; line-height: 1.2; }
+.card .val { font-size: 5cqw; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .strip { display: block; width: 100%; height: auto; }
+.card .fields { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 2.67cqw; padding: 3.33cqw 4cqw 0; }
+.card .fields > div:last-child:not(:first-child) { text-align: right; }
+.card .fields.rowb { padding-top: 2.67cqw; }
+.card .code { margin-top: auto; padding-bottom: 4.67cqw; display: grid; justify-items: center; gap: 1.33cqw; }
+.card .qr { background: #fff; border-radius: 2cqw; padding: 2cqw; width: 30.7cqw; height: 30.7cqw; }
+.card .qr svg { width: 100%; height: 100%; display: block; }
+.card .art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.card .ptop { position: absolute; inset: 0 0 auto; display: flex; align-items: flex-start; padding: 4cqw 4.67cqw; }
+.card .pchip { display: flex; align-items: center; gap: 2cqw; max-width: 39cqw; font-size: 3.67cqw; font-weight: 600; }
+.card .pchip img { width: 7.33cqw; height: 7.33cqw; border-radius: 50%; object-fit: cover; flex: none; }
+.card .pchip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card .pbottom { position: absolute; inset: auto 0 0; padding: 4cqw 4.67cqw 4.67cqw; display: grid; gap: .67cqw; }
+.card .pprimary { font-size: 7.33cqw; font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .pfoot { font-size: 3.67cqw; opacity: .8; }
+.card .gprimary { display: flex; align-items: center; gap: 4cqw; padding: 2cqw 4cqw 1.33cqw; }
+.card .gprimary .val { font-size: 13.3cqw; font-weight: 300; line-height: 1.05; }
+.card .thumb { width: 26cqw; height: 26cqw; border-radius: 3.33cqw; object-fit: cover; margin-left: auto; }
+
+/* Video only: the render machine has no SF Pro, so native card text uses Geist before the generic fallbacks. */
+.card { font-family: -apple-system, "SF Pro Text", "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif; }
